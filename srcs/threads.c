@@ -6,7 +6,7 @@
 /*   By: syakovle <syakovle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 03:07:46 by syakovle          #+#    #+#             */
-/*   Updated: 2023/06/16 03:09:50 by syakovle         ###   ########.fr       */
+/*   Updated: 2023/06/19 16:38:18 by syakovle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ void	*routine(void *args)
 
 	philo = (t_philo *) args;
 	philo->time = ft_gettime() - philo->table->globaltime;
+	if (philo->id % 2 == 0 && philo->table->timetodie > 0)
+		usleep(500);
 	while (philo->table->stopthread == false)
 	{
 		if (ft_alllaunched(philo) == 1)

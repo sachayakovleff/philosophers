@@ -6,7 +6,7 @@
 /*   By: syakovle <syakovle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 04:15:17 by syakovle          #+#    #+#             */
-/*   Updated: 2023/06/16 03:03:15 by syakovle         ###   ########.fr       */
+/*   Updated: 2023/06/17 17:06:15 by syakovle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,18 @@ void	ft_print(char *str, t_philo *philo)
 	pthread_mutex_unlock(&philo->table->mutexprint);
 }
 
-void	takefork(t_philo *philo)
+int	takefork(t_philo *philo)
 {
+	if (philo->lfork == false || philo->rfork == false
+		|| philo->pr->lfork == false || philo->pl->rfork == false)
+		return (-1);
 	philo->lfork = false;
 	philo->rfork = false;
 	philo->pl->rfork = false;
 	philo->pr->lfork = false;
 	ft_print("has taken a fork\n", philo);
 	ft_print("has taken a fork\n", philo);
+	return (0);
 }
 
 void	setfork(t_philo *philo)
@@ -55,12 +59,11 @@ void	setfork(t_philo *philo)
 void	ft_eat(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->table->mutexfork);
-	if (philo->table->stopthread == true)
+	if (philo->table->stopthread == true || takefork(philo) == -1)
 	{
 		pthread_mutex_unlock(&philo->table->mutexfork);
 		return ;
 	}
-	takefork(philo);
 	pthread_mutex_unlock(&philo->table->mutexfork);
 	pthread_mutex_lock(&philo->table->mutexeat);
 	philo->time = ft_gettime() - philo->table->globaltime;

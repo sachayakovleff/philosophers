@@ -6,7 +6,7 @@
 /*   By: syakovle <syakovle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 23:57:32 by syakovle          #+#    #+#             */
-/*   Updated: 2023/06/16 02:58:11 by syakovle         ###   ########.fr       */
+/*   Updated: 2023/06/19 16:35:19 by syakovle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,9 @@ void	ft_free(t_table table)
 			table.philo = save;
 		i++;
 	}
+	pthread_mutex_destroy(&table.mutexprint);
+	pthread_mutex_destroy(&table.mutexfork);
+	pthread_mutex_destroy(&table.mutexeat);
 }
 
 int	main(int ac, char **av)

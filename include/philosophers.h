@@ -6,7 +6,7 @@
 /*   By: syakovle <syakovle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 23:59:53 by syakovle          #+#    #+#             */
-/*   Updated: 2023/06/16 02:56:57 by syakovle         ###   ########.fr       */
+/*   Updated: 2023/06/17 17:06:34 by syakovle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int			init(t_table *table, int ac, char **av);
 long int	ft_gettime(void);
 void		ft_eat(t_philo *philo);
 void		setfork(t_philo *philo);
-void		takefork(t_philo *philo);
+int			takefork(t_philo *philo);
 void		ft_print(char *str, t_philo *philo);
 int			inittable(t_table *table, int ac, char **av);
 int			initmutex(t_table *table);
