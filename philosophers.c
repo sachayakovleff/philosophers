@@ -6,7 +6,7 @@
 /*   By: syakovle <syakovle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 23:57:32 by syakovle          #+#    #+#             */
-/*   Updated: 2023/06/19 16:35:19 by syakovle         ###   ########.fr       */
+/*   Updated: 2023/06/21 01:37:22 by syakovle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,13 @@ void	ft_free(t_table table)
 	{
 		if (table.numberphilo > 1)
 			save = table.philo->pr;
+		pthread_mutex_destroy(&table.philo->mutexfork);
 		free(table.philo);
 		if (table.numberphilo > 1)
 			table.philo = save;
 		i++;
 	}
 	pthread_mutex_destroy(&table.mutexprint);
-	pthread_mutex_destroy(&table.mutexfork);
 	pthread_mutex_destroy(&table.mutexeat);
 }
 
@@ -74,8 +74,6 @@ int	main(int ac, char **av)
 		printf("error in init.c, check with debugger\n");
 		exit(0);
 	}
-	if (table.numberphilo == 1)
-		table.philo->lfork = false;
 	if (ft_thread(&table) == -1)
 		printf("error while executing threads\n");
 	ft_free(table);

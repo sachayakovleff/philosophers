@@ -6,7 +6,7 @@
 /*   By: syakovle <syakovle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 04:15:17 by syakovle          #+#    #+#             */
-/*   Updated: 2023/06/17 17:06:15 by syakovle         ###   ########.fr       */
+/*   Updated: 2023/06/21 01:49:12 by syakovle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,10 @@ void	ft_print(char *str, t_philo *philo)
 
 int	takefork(t_philo *philo)
 {
-	if (philo->lfork == false || philo->rfork == false
-		|| philo->pr->lfork == false || philo->pl->rfork == false)
+	if (philo->fork == false || philo->pl->fork == false)
 		return (-1);
-	philo->lfork = false;
-	philo->rfork = false;
-	philo->pl->rfork = false;
-	philo->pr->lfork = false;
+	philo->fork = false;
+	philo->pl->fork = false;
 	ft_print("has taken a fork\n", philo);
 	ft_print("has taken a fork\n", philo);
 	return (0);
@@ -43,10 +40,8 @@ int	takefork(t_philo *philo)
 
 void	setfork(t_philo *philo)
 {
-	philo->lfork = true;
-	philo->rfork = true;
-	philo->pl->rfork = true;
-	philo->pr->lfork = true;
+	philo->fork = true;
+	philo->pl->fork = true;
 	if (philo->table->stopthread == true)
 		return ;
 	ft_print("is sleeping\n", philo);
@@ -56,15 +51,29 @@ void	setfork(t_philo *philo)
 	ft_print("is thinking\n", philo);
 }
 
+void	ft_lock(t_philo *philo, int lock)
+{
+	if (lock == 0)
+	{
+		pthread_mutex_lock(&philo->mutexfork);
+		pthread_mutex_lock(&philo->pl->mutexfork);
+	}
+	if (lock == 1)
+	{
+		pthread_mutex_unlock(&philo->mutexfork);
+		pthread_mutex_unlock(&philo->pl->mutexfork);
+	}
+}
+
 void	ft_eat(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->table->mutexfork);
+	ft_lock(philo, 0);
 	if (philo->table->stopthread == true || takefork(philo) == -1)
 	{
-		pthread_mutex_unlock(&philo->table->mutexfork);
+		ft_lock(philo, 1);
 		return ;
 	}
-	pthread_mutex_unlock(&philo->table->mutexfork);
+	ft_lock(philo, 1);
 	pthread_mutex_lock(&philo->table->mutexeat);
 	philo->time = ft_gettime() - philo->table->globaltime;
 	philo->countlunch += 1;

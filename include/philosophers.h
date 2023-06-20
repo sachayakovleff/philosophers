@@ -6,7 +6,7 @@
 /*   By: syakovle <syakovle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 23:59:53 by syakovle          #+#    #+#             */
-/*   Updated: 2023/06/17 17:06:34 by syakovle         ###   ########.fr       */
+/*   Updated: 2023/06/21 01:31:23 by syakovle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,13 @@
 typedef struct s_philo
 {
 	int				id;
-	bool			lfork;
-	bool			rfork;
+	bool			fork;
 	long int		countlunch;
 	long int		time;
 	struct s_philo	*pl;
 	struct s_philo	*pr;
 	struct s_table	*table;
+	pthread_mutex_t	mutexfork;
 	pthread_t		thread;
 }	t_philo;
 
@@ -47,9 +47,7 @@ typedef struct s_table
 	long int		globaltime;
 	int				numberphilo;
 	bool			stopthread;
-	pthread_t		thread;
 	t_philo			*philo;
-	pthread_mutex_t	mutexfork;
 	pthread_mutex_t	mutexeat;
 	pthread_mutex_t	mutexprint;
 }	t_table;

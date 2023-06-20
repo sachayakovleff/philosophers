@@ -6,7 +6,7 @@
 /*   By: syakovle <syakovle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 00:19:06 by syakovle          #+#    #+#             */
-/*   Updated: 2023/06/16 02:27:59 by syakovle         ###   ########.fr       */
+/*   Updated: 2023/06/21 01:32:20 by syakovle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,18 @@ t_philo	*createlist(int id, t_table *table)
 	if (list == NULL)
 		return (NULL);
 	list->id = id;
-	list->lfork = true;
+	list->fork = true;
 	list->pl = NULL;
 	list->pr = NULL;
-	list->rfork = true;
 	list->countlunch = 0;
 	list->time = 0;
 	list->thread = 0;
 	list->table = table;
+	if (pthread_mutex_init(&list->mutexfork, NULL) == -1)
+	{
+		free(list);
+		return (NULL);
+	}
 	return (list);
 }
 

@@ -6,7 +6,7 @@
 /*   By: syakovle <syakovle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 03:07:46 by syakovle          #+#    #+#             */
-/*   Updated: 2023/06/19 16:38:18 by syakovle         ###   ########.fr       */
+/*   Updated: 2023/06/21 01:48:50 by syakovle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,8 @@ void	*routine(void *args)
 	pthread_exit(NULL);
 }
 
-void	*checker(void *args)
+void	checker(t_philo *philo)
 {
-	t_philo	*philo;
-
-	philo = (t_philo *) args;
 	while (philo->table->stopthread == false)
 	{
 		if (ft_gettime() - philo->table->globaltime - philo->time
@@ -76,7 +73,6 @@ void	*checker(void *args)
 		if (philo->table->numberphilo > 1)
 			philo = philo->pr;
 	}
-	pthread_exit(NULL);
 }
 
 int	ft_thread(t_table *table)
@@ -85,7 +81,6 @@ int	ft_thread(t_table *table)
 
 	i = 0;
 	table->globaltime = ft_gettime();
-	pthread_create(&table->thread, NULL, checker, table->philo);
 	while (i < table->numberphilo)
 	{
 		table->philo->time = ft_gettime();
@@ -97,7 +92,7 @@ int	ft_thread(t_table *table)
 		i++;
 	}
 	i = 0;
-	pthread_join(table->thread, NULL);
+	checker(table->philo);
 	while (i < table->numberphilo)
 	{
 		pthread_join(table->philo->thread, NULL);

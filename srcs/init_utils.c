@@ -6,7 +6,7 @@
 /*   By: syakovle <syakovle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 02:28:07 by syakovle          #+#    #+#             */
-/*   Updated: 2023/06/17 16:50:13 by syakovle         ###   ########.fr       */
+/*   Updated: 2023/06/21 01:32:31 by syakovle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 int	initmutex(t_table *table)
 {
 	if (pthread_mutex_init(&table->mutexeat, NULL) == -1)
-		return (-1);
-	if (pthread_mutex_init(&table->mutexfork, NULL) == -1)
 		return (-1);
 	if (pthread_mutex_init(&table->mutexprint, NULL) == -1)
 		return (-1);
